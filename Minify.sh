@@ -9,7 +9,7 @@
 # Default vars
 force=0 
 permission="u+x"
-mode=RAM # RAM is deafault
+mode=RAM
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 #Functions
