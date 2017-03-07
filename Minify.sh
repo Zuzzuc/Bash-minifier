@@ -12,64 +12,7 @@
 # 3: File does not exist
 # 4: Unknown argument supplied to script
 # 5: This script will not minify itself
-# 6: Unknown output mode encounterd
-
-
-# Supported arguments
-#
-# File argument, chooses what file to be minified 
-# Used with a parameter
-# This argument is REQUIRED for this script to work.
-# -f or --file
-# example: ./script.sh -f=test.txt
-#
-# Force argument, if enabled does not check if file really is a bash script.
-# Should not be supplied with a parameter
-# This argument is not required for the script to work
-# -F or --force
-# example: ./script.sh -F
-#
-# Mode argument, chooses what mode to use. 
-# Used with a parameter
-# This argument is not required for the script to work
-# -m or --mode
-# example: ./script.sh --mode=default
-# Output argument, chooses how to handle result returned by this script
-#
-
-# Different modes
-# Default mode is RAM
-# Used with a parameter
-#
-# RAM
-# This mode will load the whole script into RAM, and then making the changes while its there, and in the end it will output-.
-# This is the fasterst, and for now the only, mode.
-#
-
-# Different outputs
-# Default output is STDOUT
-# Used with a parameter
-# -o or --output
-# This argument is not required for the script to work
-#
-# STDOUT
-# This parameter will cause the output to go into stdout.
-# This makes it so you can get the content of a minified script from a console, without first putting it into a file.
-# E.G, you can do the following
-## SomeVar="$(./Script -f=Somefile.txt -o=STDOUT)" ##																																														 
-#
-# To output to a file, specify the file after -o=.
-# Example: ./Script -f=Somefile.sh -o=SomeOtherfile.sh
-
-# Different permissions
-# Default permission is u+x
-# Used with a parameter
-# This argument is not required for the script to work
-# -p or --permission
-#
-# The given permission will be applied to the output file.
-# Example: ./Script -f=Somefile.sh -o=SomeOtherfile.sh -p="u-r"
-
+# 6: Unknown output mode encountered
 
 
 # Assign variables 
@@ -80,7 +23,6 @@ mode=RAM # RAM is deafault
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 #Functions
-
 exitw(){
 	# Exit, and output error code.
 	# Usage is $1, where $1 is the error code.
@@ -203,6 +145,7 @@ if [ "$force" != 1 ];then
 	fi
 fi
 
+# Minify
 FirstLine="$(echo -e "$(readLine 1)\n")"
 body=""
 line=2 # Skip line 1
