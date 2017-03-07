@@ -17,6 +17,11 @@ date # This will output the current date
 
 # Usage
 
+## Supported options
+<br>
+### File
+#### -f or --file
+#### Requires a parameter
 
 ## Exit codes
 
