@@ -22,6 +22,8 @@ date # This will output the current date
 ### File
 #### -f or --file
 #### Requires a parameter
+##### This argument is REQUIRED for this script to work.
+<br>This option chooses what file to read from
 
 ## Exit codes
 
