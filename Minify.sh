@@ -25,7 +25,7 @@ exitw(){
 SanitizeFilePath(){
 	# This function will remove \ and space at the end of a filepath to make it parse well into other, quoted, functions/commands
 	# Usage $1, where $1 is a file path.
-	echo -n "$(echo $(echo "$1" | sed 's%\\%%g')|sed -e 's%[[:space:]]*$%%')"
+	echo -n "$(echo "$(echo "$1" | sed 's%\\%%g')" |sed -e 's%[[:space:]]*$%%')"
 }
 
 readLine(){
