@@ -24,7 +24,23 @@ date # This will output the current date
 #### Requires a parameter
 #### This option is REQUIRED for this script to work.
 <br>This option chooses what file to read from.<br><br>
-Examples: `/Minify.sh -f=test.txt`
+Example: `/Minify.sh -f=test.sh`
+<br><br><br>
+### Force
+#### -F or -force
+#### Should not be supplied with a parameter
+##### Disabled by default
+<br>If this option is enabled the script will skip any security checks and will therefore not promt the user at any time.<br><br>
+Example: `/Minify.sh -F -f=test.sh`
+<br><br><br>
+### Mode
+#### -m or --mode
+#### Requires a parameter
+##### Defaults to RAM
+<br>This option will specify what mode to use. Right now there is only one mode avaliable, RAM, but there will be multiple added in the future<br><br>
+Example: `/Minify.sh -F -f=test.sh -m=RAM`
+<br><br><br>
+
 ## Exit codes
 
 0: Everything went well<br>
