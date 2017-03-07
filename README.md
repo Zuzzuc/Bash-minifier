@@ -38,8 +38,19 @@ Example: `/Minify.sh -F -f=test.sh`
 #### Requires a parameter
 ##### Defaults to RAM
 <br>This option will specify what mode to use. Right now there is only one mode avaliable, RAM, but there will be multiple added in the future<br><br>
+RAM mode will read the whole script into RAM before making changes, and writing them to stdout or file first when all changes are complete.
+<br><br>
 Example: `/Minify.sh -F -f=test.sh -m=RAM`
 <br><br><br>
+
+### Output
+#### -o or --output
+#### Requires a parameter
+#### Defaults to STDOUT
+<br>This option specifies where to send the output.<br><br>
+STDOUT will simply send the output to stdout.<br>
+By specificating a file path the script will write the output to that file.<br><br>
+Examples: `/Minify.sh -F -f=test.sh -m=RAM -o=STDOUT` `/Minify.sh -F -f=test.sh -m=RAM -o="$HOME/Desktop/output.sh"` 
 
 ## Exit codes
 
