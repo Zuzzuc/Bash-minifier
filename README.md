@@ -22,9 +22,9 @@ date # This will output the current date
 ### File
 #### -f or --file
 #### Requires a parameter
-##### This argument is REQUIRED for this script to work.
-<br>This option chooses what file to read from
-
+#### This option is REQUIRED for this script to work.
+<br>This option chooses what file to read from.<br><br>
+Examples: ´/Minify.sh -f=test.txt´
 ## Exit codes
 
 0: Everything went well<br>
