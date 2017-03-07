@@ -26,7 +26,7 @@ This will minify a script named "test.sh" on the desktop and output its conent t
 <br>`/Minify.sh -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh"`
 This will do the same, but will write the output to a file named "output.sh", and give it execution permissions(due to default settings not overrun), on the users desktop. 
 <br>
-`/Minify.sh -F -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh" -p=u-r`
+<br>`/Minify.sh -F -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh" -p=u-r`
 This will minify and write the script to desktop, and remove read access for the current user from it. 
 <br>
 
