@@ -56,7 +56,7 @@ processData(){
 		fi
 	fi
 	
-	# We should not run this is data is a comment, as it will corrupt the script.
+	# We should not run this if data is a comment, as it will corrupt the script.
 	if [ $ic -eq 0 ];then
 		# Look for exceptions
 		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
