@@ -17,8 +17,20 @@ date # This will output the current date
 
 # Usage
 
-## Supported options
+This script will convert any script to a one liner(or two lines if counting the shebang). Following are some examples on how to use it
 <br>
+<br>
+`/Minify.sh -f="$HOME/Desktop/test.sh"`
+This will minify a script named "test.sh" on the desktop and output its conent to stdout.
+<br>
+<br>`/Minify.sh -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh"`
+This will do the same, but will write the output to a file named "output.sh", and give it execution permissions(due to default settings not overrun), on the users desktop. 
+<br>
+`/Minify.sh -F -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh" -p=u-r`
+This will minify and write the script to desktop, and remove read access for the current user from it. 
+<br>
+
+## Supported options
 ### File
 #### -f or --file
 #### Requires a parameter
