@@ -28,8 +28,8 @@ Example: `/Minify.sh -f=test.sh`
 <br><br><br>
 ### Force
 #### -F or -force
-#### Should not be supplied with a parameter
-##### Disabled by default
+Should not be supplied with a parameter.<br>
+Disabled by default<br><br>
 <br>If this option is enabled the script will skip any security checks and will therefore not promt the user at any time.<br><br>
 Example: `/Minify.sh -F -f=test.sh`
 <br><br><br>
