@@ -5,16 +5,6 @@
 # This script will Minify bash scripts.
 
 
-# Exit codes for this script
-# 0: Everything went well
-# 1: Unknown error
-# 2: User declined to continue when warned about script content
-# 3: File does not exist
-# 4: Unknown argument supplied to script
-# 5: This script will not minify itself
-# 6: Unknown output mode encountered
-
-
 # Assign variables 
 # Default vars
 force=0 
