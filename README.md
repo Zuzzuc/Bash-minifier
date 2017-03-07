@@ -50,7 +50,15 @@ Example: `/Minify.sh -F -f=test.sh -m=RAM`
 <br>This option specifies where to send the output.<br><br>
 STDOUT will simply send the output to stdout.<br>
 By specificating a file path the script will write the output to that file.<br><br>
-Examples: `/Minify.sh -F -f=test.sh -m=RAM -o=STDOUT` `/Minify.sh -F -f=test.sh -m=RAM -o="$HOME/Desktop/output.sh"` 
+Examples: `/Minify.sh -F -f=test.sh -m=RAM -o=STDOUT`<br>`/Minify.sh -F -f=test.sh -m=RAM -o="$HOME/Desktop/output.sh"` 
+<br><br><br>
+
+### Permission
+#### -p or --permission
+#### Requires a parameter
+#### Defaults to u+x
+<br>This option will, in case of the output being a file, set the parameters to what you wish.<br><br>
+Example: `/Minify.sh -F -f=test.sh -m=RAM -o=$HOME/Desktop/output.sh -p=u-r`
 
 ## Exit codes
 
