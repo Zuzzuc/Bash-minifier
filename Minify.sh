@@ -5,11 +5,13 @@
 # This script will Minify bash scripts.
 
 
+
 # Assign variables 
 # Default vars
 force=0 
 permission="u+x"
 mode=RAM
+output=stdout
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 #Functions
@@ -23,7 +25,7 @@ exitw(){
 SanitizeFilePath(){
 	# This function will remove \ and space at the end of a filepath to make it parse well into other, quoted, functions/commands
 	# Usage $1, where $1 is a file path.
-	echo "$(echo $(echo "$1" | sed 's%\\%%g')|sed -e 's%[[:space:]]*$%%')"
+	echo -n "$(echo $(echo "$1" | sed 's%\\%%g')|sed -e 's%[[:space:]]*$%%')"
 }
 
 readLine(){
@@ -37,7 +39,7 @@ processData(){
 	# Usage is $1, where $1 is the data.
 	
 	# Remove trailing spaces.
-	data=$(echo -e "${1}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+	data="$(echo -e "${1}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 	
 	ic=0
 		
@@ -56,14 +58,14 @@ processData(){
 		fi
 	fi
 	
-	# We should not run this if data is a comment, as it will corrupt the script.
+	# We should not run this if data is a full line comment, as it will corrupt the script.
 	if [ $ic -eq 0 ];then
 		# Look for exceptions
 		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
 			# Add a space
 			data="$(echo "$data" | sed "s%$% %")"	
 		elif [ "${data: -1}" == "}" ];then
-			data=$(echo "$data" | sed 's%}$% };%')
+			data="$(echo "$data" | sed 's%}$% };%')"
 		else
 			# Add ';' to end of line. 
 			data="$(echo "$data" | sed "s%$%;%")"
@@ -82,7 +84,7 @@ for i in "$@";do
     	shift
     	;;
     	-f=*|--file=*)
-   		file=$(SanitizeFilePath "${i#*=}") 		
+   		file="$(SanitizeFilePath "${i#*=}")"		
    		if [ "$file" == "$self" ];then
    			echo "You are trying to execute this script on itself."
    			exitw 5
@@ -147,12 +149,12 @@ while [ $(($line-1)) -le $linesInFile ];do
 	line=$((line+1))
 done
 
-fullfile=$(echo $FirstLine;echo $body)
+fullfile="$(echo $FirstLine;echo $body)"
 
 if [ "$output" == "stdout" ];then
-	echo "$fullfile"
+	echo -n "$fullfile"
 elif [ "$output" == "file" ];then
-	echo "$fullfile" > "$outputFile"
+	echo -n "$fullfile" > "$outputFile"
 	chmod "$permission" "$outputFile"
 else
 	exitw 6
