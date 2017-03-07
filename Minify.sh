@@ -82,7 +82,7 @@ for i in "$@";do
     	shift
     	;;
     	-f=*|--file=*)
-   		file=$(SanitizeFilePath "$(echo "${i#*=}")") 		
+   		file=$(SanitizeFilePath "${i#*=}") 		
    		if [ "$file" == "$self" ];then
    			echo "You are trying to execute this script on itself."
    			exitw 5
