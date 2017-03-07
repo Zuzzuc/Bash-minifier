@@ -9,7 +9,7 @@ Does currently only support full line comments. This means that this will work
 # The next line will output the current date
 date
 ```
-whilst this wont work 
+whilst this won't work 
 ```
 #!/bin/bash
 date # This will output the current date
@@ -20,10 +20,10 @@ date # This will output the current date
 
 ## Exit codes
 
-0: Everything went well
-1: Unknown error
-2: User declined to continue when warned about script content
-3: File does not exist
-4: Unknown argument supplied to script
-5: This script will not minify itself
-6: Unknown output mode encountered
+0: Everything went well<br>
+1: Unknown error<br>
+2: User declined to continue when warned about script content<br>
+3: File does not exist<br>
+4: Unknown argument supplied to script<br>
+5: This script will not minify itself<br>
+6: Unknown output mode encountered<br>
