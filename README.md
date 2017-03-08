@@ -69,7 +69,7 @@ Examples: `/Minify.sh -F -f=test.sh -m=RAM -o=STDOUT`<br>`/Minify.sh -F -f=test.
 #### -p or --permission
 #### Requires a parameter
 #### Defaults to u+x
-<br>This option will, in case of the output being a file, set the parameters to what you wish.<br><br>
+<br>This option will, in case of the output being a file, set the file permission to the content of the parameter<br><br>
 Example: `/Minify.sh -F -f=test.sh -m=RAM -o=$HOME/Desktop/output.sh -p=u-r`
 
 ## Exit codes
