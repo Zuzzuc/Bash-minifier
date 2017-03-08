@@ -12,11 +12,12 @@ force=0
 permission="u+x"
 mode=RAM
 output=stdout
+debug=0
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 #Functions
 exitw(){
-	# Exit, and output error code.
+	# Exit and print exit code.
 	# Usage is $1, where $1 is the error code.
 	echo "Error code: $1. Exiting"
 	exit $1
@@ -112,6 +113,10 @@ for i in "$@";do
     	permission="${i#*=}"
     	shift
     	;;
+    	--debug)
+    	debug=1
+    	shift
+    	;;
     	*)
     	echo "Unknown arg supplied. The failing arg is '$i'"
     	exitw 4
@@ -124,6 +129,19 @@ if [ ! -f "$file" ];then
 	echo "The file you supplies, '$file', can not be found or is not a file."
 	exitw 3
 fi
+if [ -f "$outputFile" ];then
+	if [ "$force" != 1 ];then
+    	echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
+		read continue
+		echo it is $continue
+		if [ "$continue" != "y" ] && [ "$continue" != "Y" ];then
+			exitw 2
+		else
+			echo "Continuing..."
+			unset continue
+		fi
+	fi
+fi
 if [ "$force" != 1 ];then
 	if [ "$(head -1 "$file")" != '#!/bin/bash' ] && [ "$(head -1 "$file")" != '#!/bin/sh' ] && [ "$(head -1 "$file")" != '#!/usr/bin/env bash' ];then
 		echo "The script targeted might not be a bash script, would you still like to continue? Press [y]es or [n]o"
@@ -133,6 +151,7 @@ if [ "$force" != 1 ];then
 			exitw 2
 		else
 			echo "Continuing..."
+			unset continue
 		fi
 	fi
 fi
@@ -140,11 +159,13 @@ fi
 # Minify
 FirstLine="$(readLine 1)"
 body=""
-line=2 # Skip line 1
+line=2
 linesInFile=$(wc -l < "$file")
 
 while [ $(($line-1)) -le $linesInFile ];do
-	echo $line
+	if [ "$debug" == "1" ];then
+		echo $line
+	fi
 	body+="$(processData "$(readLine $line)")"
 	line=$((line+1))
 done
