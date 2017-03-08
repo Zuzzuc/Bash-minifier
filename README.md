@@ -61,7 +61,7 @@ Example: `/Minify.sh -F -f=test.sh -m=RAM`
 #### Defaults to STDOUT
 <br>This option specifies where to send the output.<br><br>
 STDOUT will simply send the output to stdout.<br>
-By specificating a file path the script will write the output to that file.<br><br>
+<br>File will write the output to a file. To activate this option, simply specify a file path. If a file already exists in the filepath, the script will promt the user and ask if the file should be overwritten.<br><br>
 Examples: `/Minify.sh -F -f=test.sh -m=RAM -o=STDOUT`<br>`/Minify.sh -F -f=test.sh -m=RAM -o="$HOME/Desktop/output.sh"` 
 <br><br><br>
 
@@ -76,7 +76,7 @@ Example: `/Minify.sh -F -f=test.sh -m=RAM -o=$HOME/Desktop/output.sh -p=u-r`
 
 0: Everything went well<br>
 1: Unknown error<br>
-2: User declined to continue when warned about script content<br>
+2: User declined to continue when warned<br>
 3: File does not exist<br>
 4: Unknown argument supplied to script<br>
 5: This script will not minify itself<br>
