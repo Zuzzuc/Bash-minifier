@@ -138,7 +138,7 @@ if [ "$force" != 1 ];then
 fi
 
 # Minify
-FirstLine="$(echo -e "$(readLine 1)\n")"
+FirstLine="$(readLine 1)"
 body=""
 line=2 # Skip line 1
 linesInFile=$(wc -l < "$file")
