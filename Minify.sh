@@ -133,7 +133,6 @@ if [ -f "$outputFile" ];then
 	if [ "$force" != 1 ];then
     	echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
 		read continue
-		echo it is $continue
 		if [ "$continue" != "y" ] && [ "$continue" != "Y" ];then
 			exitw 2
 		else
@@ -141,12 +140,11 @@ if [ -f "$outputFile" ];then
 			unset continue
 		fi
 	fi
-fi
+	fi
 if [ "$force" != 1 ];then
 	if [ "$(head -1 "$file")" != '#!/bin/bash' ] && [ "$(head -1 "$file")" != '#!/bin/sh' ] && [ "$(head -1 "$file")" != '#!/usr/bin/env bash' ];then
 		echo "The script targeted might not be a bash script, would you still like to continue? Press [y]es or [n]o"
 		read continue
-		echo it is $continue
 		if [ "$continue" != "y" ] && [ "$continue" != "Y" ];then
 			exitw 2
 		else
