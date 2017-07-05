@@ -20,9 +20,7 @@ date # This will output the current date
 This script will convert any script to a one liner(or two lines if counting the shebang). Following are some examples on how to use it
 <br>
 <br>
-```bash
-/Minify.sh -f="$HOME/Desktop/test.sh"
-```
+`/Minify.sh -f="$HOME/Desktop/test.sh"`
 This will minify a script named "test.sh" on the desktop and output its conent to stdout.
 <br>
 <br>`/Minify.sh -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh"`
@@ -80,6 +78,6 @@ Example: `/Minify.sh -F -f=test.sh -m=RAM -o=$HOME/Desktop/output.sh -p=u-r`
 1: Unknown error<br>
 2: User declined to continue when warned<br>
 3: File does not exist<br>
-4: Unknown argument supplied to script<br>
+4: Unknown argument supplied to script<br> 
 5: This script will not minify itself<br>
 6: Unknown output mode encountered<br>
