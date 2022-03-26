@@ -126,7 +126,7 @@ for i in "$@";do
 done
 
 if [ ! -f "$file" ];then
-	echo "The file you supplies, '$file', can not be found or is not a file."
+	echo "The file you supplied, '$file', can not be found or is not a file."
 	exitw 3
 fi
 if [ -f "$outputFile" ];then
