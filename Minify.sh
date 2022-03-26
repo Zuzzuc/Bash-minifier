@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/usr/bin/env bash
 # License: The MIT License (MIT)
 # Author Zuzzuc https://github.com/Zuzzuc/
 
