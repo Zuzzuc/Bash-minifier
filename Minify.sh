@@ -60,7 +60,8 @@ processData(){
 	fi
 	
 	# We should not run this if data is a full line comment, as it will corrupt the script.
-	if [ $ic -eq 0 ];then
+	# Also skip empty lines to avoid adding unnecessary semicolons
+	if [ $ic -eq 0 ] && [ -n "$data" ];then
 		# Look for exceptions
 		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
 			# Add a space
