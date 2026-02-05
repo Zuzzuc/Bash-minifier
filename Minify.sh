@@ -59,10 +59,19 @@ processData(){
 		fi
 	fi
 
+	# Skip empty lines
+	if [ -z "$data" ];then
+		ic=1
+	fi
+
 	# We should not run this if data is a full line comment, as it will corrupt the script.
 	if [ $ic -eq 0 ];then
+		# Check if line ends with backslash (line continuation)
+		if [ "${data: -1}" == "\\" ];then
+			# Line continuation - remove backslash and add space (since we're on one line now)
+			data="$(echo "$data" | sed 's%\\$% %')"
 		# Look for exceptions
-		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
+		elif [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
 			# Add a space
 			data="$(echo "$data" | sed "s%$% %")"
 		elif [ "${data: -1}" == "}" ];then
