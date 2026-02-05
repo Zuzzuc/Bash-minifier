@@ -67,9 +67,12 @@ processData(){
 			# Line continuation - remove backslash and add space (since we're on one line now)
 			data="$(echo "$data" | sed 's%\\$% %')"
 		# Look for exceptions
-		elif [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
+		elif [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ] || [ "${data: -2}" == "in" ];then
 			# Add a space
 			data="$(echo "$data" | sed "s%$% %")"
+		elif [ "${data: -2}" == ";;" ];then
+			# Case statement terminator - don't add semicolon
+			:
 		elif [ "${data: -1}" == "}" ];then
 			data="$(echo "$data" | sed 's%}$% };%')"
 		else
@@ -172,6 +175,9 @@ while [ $(($line-1)) -le $linesInFile ];do
 	body+="$(processData "$(readLine $line)")"
 	line=$((line+1))
 done
+
+# Post-process: fix case statement terminators (remove semicolon before ;;)
+body="$(echo "$body" | sed 's/;;;/;;/g')"
 
 fullfile="$(echo $FirstLine;echo $body)"
 
