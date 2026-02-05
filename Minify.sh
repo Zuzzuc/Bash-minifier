@@ -6,9 +6,9 @@
 
 
 
-# Assign variables 
+# Assign variables
 # Default vars
-force=0 
+force=0
 permission="u+x"
 mode=RAM
 output=stdout
@@ -36,20 +36,20 @@ readLine(){
 }
 
 processData(){
-	# This function will format any input line to be able to fit in a one liner. 
+	# This function will format any input line to be able to fit in a one liner.
 	# Usage is $1, where $1 is the data.
-	
+
 	# Remove trailing spaces.
 	data="$(echo -e "${1}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-	
+
 	ic=0
-		
+
 	# Remove comments
 	# Temporary fix, will only remove full line comments...
-		
+
 	# The following line will check if the line contains '#'
 	if [[ "$(echo "$data" | grep -q '#';echo $?)" == "0" ]];then
-	
+
 		# Remove any empty characters so comparison will be easier.
 		tmpString="$(echo "$data" | sed 's%\t%%g' | sed 's% %%g' | sed 's%\v%%g' | sed 's%\r%%g' | sed 's%\r%%g' | sed 's%\n%%g' )"
 		if [ "${tmpString:0:1}" == "#" ];then
@@ -58,24 +58,24 @@ processData(){
 			ic=1
 		fi
 	fi
-	
+
 	# We should not run this if data is a full line comment, as it will corrupt the script.
 	if [ $ic -eq 0 ];then
 		# Look for exceptions
 		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
 			# Add a space
-			data="$(echo "$data" | sed "s%$% %")"	
+			data="$(echo "$data" | sed "s%$% %")"
 		elif [ "${data: -1}" == "}" ];then
 			data="$(echo "$data" | sed 's%}$% };%')"
 		else
-			# Add ';' to end of line. 
+			# Add ';' to end of line.
 			data="$(echo "$data" | sed "s%$%;%")"
 		fi
 	fi
-		
+
 	# Return $data
 	echo -ne "$data"
-	
+
 }
 
 # Handle input
