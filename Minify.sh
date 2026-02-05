@@ -6,9 +6,9 @@
 
 
 
-# Assign variables 
+# Assign variables
 # Default vars
-force=0 
+force=0
 permission="u+x"
 mode=RAM
 output=stdout
@@ -36,20 +36,20 @@ readLine(){
 }
 
 processData(){
-	# This function will format any input line to be able to fit in a one liner. 
+	# This function will format any input line to be able to fit in a one liner.
 	# Usage is $1, where $1 is the data.
-	
+
 	# Remove trailing spaces.
 	data="$(echo -e "${1}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-	
+
 	ic=0
-		
+
 	# Remove comments
 	# Temporary fix, will only remove full line comments...
-		
+
 	# The following line will check if the line contains '#'
 	if [[ "$(echo "$data" | grep -q '#';echo $?)" == "0" ]];then
-	
+
 		# Remove any empty characters so comparison will be easier.
 		tmpString="$(echo "$data" | sed 's%\t%%g' | sed 's% %%g' | sed 's%\v%%g' | sed 's%\r%%g' | sed 's%\r%%g' | sed 's%\n%%g' )"
 		if [ "${tmpString:0:1}" == "#" ];then
@@ -58,70 +58,78 @@ processData(){
 			ic=1
 		fi
 	fi
-	
+
 	# We should not run this if data is a full line comment, as it will corrupt the script.
-	if [ $ic -eq 0 ];then
+	# Also skip empty lines to avoid adding unnecessary semicolons
+	if [ $ic -eq 0 ] && [ -n "$data" ];then
+		# Check if line ends with backslash (line continuation)
+		if [ "${data: -1}" == "\\" ];then
+			# Line continuation - remove backslash and add space (since we're on one line now)
+			data="$(echo "$data" | sed 's%\\$% %')"
 		# Look for exceptions
-		if [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ];then
+		elif [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ] || [ "${data: -2}" == "in" ];then
 			# Add a space
-			data="$(echo "$data" | sed "s%$% %")"	
+			data="$(echo "$data" | sed "s%$% %")"
+		elif [ "${data: -2}" == ";;" ];then
+			# Case statement terminator - don't add semicolon
+			:
 		elif [ "${data: -1}" == "}" ];then
 			data="$(echo "$data" | sed 's%}$% };%')"
 		else
-			# Add ';' to end of line. 
+			# Add ';' to end of line.
 			data="$(echo "$data" | sed "s%$%;%")"
 		fi
 	fi
-		
+
 	# Return $data
 	echo -ne "$data"
-	
+
 }
 
 # Handle input
 for i in "$@";do
 	case $i in
 		$self)
-    	shift
-    	;;
-    	-f=*|--file=*)
-   		file="$(SanitizeFilePath "${i#*=}")"		
-   		if [ "$file" == "$self" ];then
-   			echo "You are trying to execute this script on itself."
-   			exitw 5
-   		fi
-    	shift
-    	;;
-    	-F|--force)
-    	force=1
-    	shift
-    	;;
-    	-m=*|--mode=*)
-    	mode="${i#*=}"
-    	shift
-   		;;
-   		-o=*|--output=*)
-   		if [ "${i#*=}" == "STDOUT" ] || [ "${i#*=}" == "stdout" ];then
-    		output="stdout"
-    	else
-    		output="file"
-    		outputFile="$(SanitizeFilePath "${i#*=}")"
-    	fi
-    	shift
-   		;;
-    	-p=*|--permission=*)
-    	permission="${i#*=}"
-    	shift
-    	;;
-    	--debug)
-    	debug=1
-    	shift
-    	;;
-    	*)
-    	echo "Unknown arg supplied. The failing arg is '$i'"
-    	exitw 4
-    	shift
-   		;;
+		shift
+		;;
+		-f=*|--file=*)
+		file="$(SanitizeFilePath "${i#*=}")"
+		if [ "$file" == "$self" ];then
+			echo "You are trying to execute this script on itself."
+			exitw 5
+		fi
+		shift
+		;;
+		-F|--force)
+		force=1
+		shift
+		;;
+		-m=*|--mode=*)
+		mode="${i#*=}"
+		shift
+		;;
+		-o=*|--output=*)
+		if [ "${i#*=}" == "STDOUT" ] || [ "${i#*=}" == "stdout" ];then
+			output="stdout"
+		else
+			output="file"
+			outputFile="$(SanitizeFilePath "${i#*=}")"
+		fi
+		shift
+		;;
+		-p=*|--permission=*)
+		permission="${i#*=}"
+		shift
+		;;
+		--debug)
+		debug=1
+		shift
+		;;
+		*)
+		echo "Unknown arg supplied. The failing arg is '$i'"
+		exitw 4
+		shift
+		;;
 	esac
 done
 
@@ -131,7 +139,7 @@ if [ ! -f "$file" ];then
 fi
 if [ -f "$outputFile" ];then
 	if [ "$force" != 1 ];then
-    	echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
+		echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
 		read continue
 		if [ "$continue" != "y" ] && [ "$continue" != "Y" ];then
 			exitw 2
@@ -167,6 +175,9 @@ while [ $(($line-1)) -le $linesInFile ];do
 	body+="$(processData "$(readLine $line)")"
 	line=$((line+1))
 done
+
+# Post-process: fix case statement terminators (remove semicolon before ;;)
+body="$(echo "$body" | sed 's/;;;/;;/g')"
 
 fullfile="$(echo $FirstLine;echo $body)"
 
