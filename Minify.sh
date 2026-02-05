@@ -82,46 +82,46 @@ processData(){
 for i in "$@";do
 	case $i in
 		$self)
-    	shift
-    	;;
-    	-f=*|--file=*)
-   		file="$(SanitizeFilePath "${i#*=}")"		
-   		if [ "$file" == "$self" ];then
-   			echo "You are trying to execute this script on itself."
-   			exitw 5
-   		fi
-    	shift
-    	;;
-    	-F|--force)
-    	force=1
-    	shift
-    	;;
-    	-m=*|--mode=*)
-    	mode="${i#*=}"
-    	shift
-   		;;
-   		-o=*|--output=*)
-   		if [ "${i#*=}" == "STDOUT" ] || [ "${i#*=}" == "stdout" ];then
-    		output="stdout"
-    	else
-    		output="file"
-    		outputFile="$(SanitizeFilePath "${i#*=}")"
-    	fi
-    	shift
-   		;;
-    	-p=*|--permission=*)
-    	permission="${i#*=}"
-    	shift
-    	;;
-    	--debug)
-    	debug=1
-    	shift
-    	;;
-    	*)
-    	echo "Unknown arg supplied. The failing arg is '$i'"
-    	exitw 4
-    	shift
-   		;;
+		shift
+		;;
+		-f=*|--file=*)
+		file="$(SanitizeFilePath "${i#*=}")"
+		if [ "$file" == "$self" ];then
+			echo "You are trying to execute this script on itself."
+			exitw 5
+		fi
+		shift
+		;;
+		-F|--force)
+		force=1
+		shift
+		;;
+		-m=*|--mode=*)
+		mode="${i#*=}"
+		shift
+		;;
+		-o=*|--output=*)
+		if [ "${i#*=}" == "STDOUT" ] || [ "${i#*=}" == "stdout" ];then
+			output="stdout"
+		else
+			output="file"
+			outputFile="$(SanitizeFilePath "${i#*=}")"
+		fi
+		shift
+		;;
+		-p=*|--permission=*)
+		permission="${i#*=}"
+		shift
+		;;
+		--debug)
+		debug=1
+		shift
+		;;
+		*)
+		echo "Unknown arg supplied. The failing arg is '$i'"
+		exitw 4
+		shift
+		;;
 	esac
 done
 
@@ -131,7 +131,7 @@ if [ ! -f "$file" ];then
 fi
 if [ -f "$outputFile" ];then
 	if [ "$force" != 1 ];then
-    	echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
+		echo "A file already exists in output path, would you like to overwrite it? Press [y]es or [n]o"
 		read continue
 		if [ "$continue" != "y" ] && [ "$continue" != "Y" ];then
 			exitw 2
