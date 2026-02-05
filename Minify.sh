@@ -59,13 +59,9 @@ processData(){
 		fi
 	fi
 
-	# Skip empty lines
-	if [ -z "$data" ];then
-		ic=1
-	fi
-
 	# We should not run this if data is a full line comment, as it will corrupt the script.
-	if [ $ic -eq 0 ];then
+	# Also skip empty lines to avoid adding unnecessary semicolons
+	if [ $ic -eq 0 ] && [ -n "$data" ];then
 		# Check if line ends with backslash (line continuation)
 		if [ "${data: -1}" == "\\" ];then
 			# Line continuation - remove backslash and add space (since we're on one line now)
