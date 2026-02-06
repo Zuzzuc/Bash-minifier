@@ -66,6 +66,9 @@ processData(){
 		if [ "${data: -1}" == "\\" ];then
 			# Line continuation - remove backslash and add space (since we're on one line now)
 			data="$(echo "$data" | sed 's%[[:space:]]*\\$% %')"
+			# Check for implicit line continuation
+		elif [ "${data: -1}" == "|" ] || [ "${data: -2}" == "&&" ] || [ "${data: -2}" == "||" ];then
+			data="$(echo "$data" | sed "s%$% %")"
 		# Look for exceptions
 		elif [ "${data: -3}" == ";do" ] || [[ "$data" =~ (^|[[:space:]])do$ ]] || \
 		     [ "${data: -5}" == ";then" ] || [[ "$data" =~ (^|[[:space:]])then$ ]] || \
