@@ -40,7 +40,7 @@ processData(){
 	# Usage is $1, where $1 is the data.
 
 	# Remove trailing spaces.
-	data="$(echo -e "${1}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+	data="$(printf '%s' "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 
 	ic=0
 
@@ -65,15 +65,25 @@ processData(){
 		# Check if line ends with backslash (line continuation)
 		if [ "${data: -1}" == "\\" ];then
 			# Line continuation - remove backslash and add space (since we're on one line now)
-			data="$(echo "$data" | sed 's%\\$% %')"
+			data="$(echo "$data" | sed 's%[[:space:]]*\\$% %')"
 		# Look for exceptions
-		elif [ "${data: -3}" == ";do" ] || [ "${data: -5}" == ";then" ] || [ "${data: -4}" == "else" ] || [ "${data: -4}" == "elif" ] || [ "${data: -1}" == "{" ] || [ "${data: -2}" == "in" ];then
+		elif [ "${data: -3}" == ";do" ] || [[ "$data" =~ (^|[[:space:]])do$ ]] || \
+		     [ "${data: -5}" == ";then" ] || [[ "$data" =~ (^|[[:space:]])then$ ]] || \
+		     [[ "$data" =~ (^|[[:space:]])else$ ]] || \
+		     [[ "$data" =~ (^|[[:space:]])elif$ ]] || \
+		     [[ "$data" =~ (^|[[:space:]])\{$ ]] || \
+		     [[ "$data" =~ (^|[[:space:]])in$ ]];then
 			# Add a space
+			data="$(echo "$data" | sed "s%$% %")"
+		elif [ "${data: -1}" == ")" ] && \
+		     [ "$(echo "$data" | tr -cd '(' | wc -c)" -lt "$(echo "$data" | tr -cd ')' | wc -c)" ] && \
+		     ! [[ "$data" =~ \&\&|\|\||\; ]];then
+			# Case pattern (unbalanced closing paren, no command operators) - add a space
 			data="$(echo "$data" | sed "s%$% %")"
 		elif [ "${data: -2}" == ";;" ];then
 			# Case statement terminator - don't add semicolon
 			:
-		elif [ "${data: -1}" == "}" ];then
+		elif [[ "$data" =~ (^|[[:space:];])\}$ ]];then
 			data="$(echo "$data" | sed 's%}$% };%')"
 		else
 			# Add ';' to end of line.
@@ -82,8 +92,7 @@ processData(){
 	fi
 
 	# Return $data
-	echo -ne "$data"
-
+	printf '%s' "$data"
 }
 
 # Handle input
@@ -172,19 +181,21 @@ while [ $(($line-1)) -le $linesInFile ];do
 	if [ "$debug" == "1" ];then
 		echo $line
 	fi
-	body+="$(processData "$(readLine $line)")"
+	processed="$(processData "$(readLine $line)")"
+	# If this line is a case terminator ';;', remove trailing ; from body
+	if [ "$processed" == ";;" ] && [ "${body: -1}" == ";" ];then
+		body="${body:0:${#body}-1}"
+	fi
+	body+="$processed"
 	line=$((line+1))
 done
 
-# Post-process: fix case statement terminators (remove semicolon before ;;)
-body="$(echo "$body" | sed 's/;;;/;;/g')"
-
-fullfile="$(echo $FirstLine;echo $body)"
+fullfile="$(printf '%s\n' "$FirstLine"; printf '%s' "$body")"
 
 if [ "$output" == "stdout" ];then
-	echo -n "$fullfile"
+	printf '%s' "$fullfile"
 elif [ "$output" == "file" ];then
-	echo -n "$fullfile" > "$outputFile"
+	printf '%s' "$fullfile" > "$outputFile"
 	chmod "$permission" "$outputFile"
 else
 	exitw 6
