@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Visual comparison tool for test results
-# Usage: ./compare_tests.sh [test_number]
+# Usage: ./test.sh [test_number]
 
 # Colors for output
 RED='\033[0;31m'
@@ -9,8 +9,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/test"
-MINIFY_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/Minify.sh"
+TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MINIFY_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/Minify.sh"
 
 # Track test failures
 FAILED_TESTS=0
@@ -46,14 +46,14 @@ compare_test() {
         echo "$expected_content" | tail -n 1
         echo -e "${RED}Actual body (line 2):${NC}"
         echo "$actual" | tail -n 1
-        FAILED_TESTS=1
+        (( FAILED_TESTS++ ))
     fi
     echo ""
 }
 
 # Main execution
 if [ -n "$1" ]; then
-    # Run specific test by number (e.g., ./compare_tests.sh 02)
+    # Run specific test by number (e.g., ./test.sh 02)
     test_file="$TEST_DIR/input/${1}_*.sh"
     if ls $test_file 1> /dev/null 2>&1; then
         for f in $test_file; do
@@ -73,6 +73,8 @@ else
     for input_file in "$TEST_DIR/input"/*.sh; do
         compare_test "$input_file"
     done
+
+    echo -e "Failed tests: ${FAILED_TESTS}"
 
     echo -e "${BLUE}════════════════════════════════════════════════════════════════${NC}"
     echo -e "${YELLOW}Comparison complete!${NC}"
