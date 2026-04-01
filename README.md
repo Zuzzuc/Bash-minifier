@@ -12,17 +12,21 @@ Example usage:
 This will minify a script named "test.sh" on the desktop and output its content to stdout.
 <br>
 <br>`/Minify.sh -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh"`
-This will do the same, but will write the output to a file named "output.sh", and give it execution permissions(due to default settings not overrun), on the users desktop. 
+This will do the same, but will write the output to a file named "output.sh", and give it execution permissions(due to default settings not overrun), on the users desktop.
 <br>
+<br />`/Minify.sh < $HOME/Desktop/test.sh > $HOME/Desktop/output.sh`
+This will read from STDIN and write to STDOUT; because of the redirection,
+this works the same way as the previous example.
+<br />
 <br>`/Minify.sh -F -f="$HOME/Desktop/test.sh" -o="$HOME/Desktop/output.sh" -p=u-r`
-This will minify and write the script to desktop, and remove read access for the current user from it. 
+This will minify and write the script to desktop, and remove read access for the current user from it.
+<br>
 <br>
 
 ## Supported options
 ### File
 #### -f or --file
 #### Requires a parameter
-#### This option is REQUIRED for this script to work.
 <br>This option chooses what file to read from.<br><br>
 Example: `./Minify.sh -f=test.sh`
 <br><br><br>
@@ -57,6 +61,6 @@ Example: `./Minify.sh -F -f=test.sh -o=$HOME/Desktop/output.sh -p=u-r`
 1: Unknown error<br>
 2: User declined to continue when warned<br>
 3: File does not exist<br>
-4: Unknown argument supplied to script<br> 
+4: Unknown argument supplied to script<br>
 5: This script will not minify itself<br>
 6: Unknown output mode encountered<br>
