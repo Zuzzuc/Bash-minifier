@@ -10,7 +10,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 TEST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MINIFY_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/Minify.sh"
+MINIFY_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/bash-minifier.sh"
 
 # Track test failures
 FAILED_TESTS=0
