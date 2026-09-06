@@ -55,6 +55,11 @@ Examples: `./bash-minifier.sh -F -f=test.sh -o=STDOUT`<br>`./bash-minifier.sh -F
 <br>This option will, in case of the output being a file, set the file permission to the content of the parameter<br><br>
 Example: `./bash-minifier.sh -F -f=test.sh -o=$HOME/Desktop/output.sh -p=u-r`
 
+### Version
+#### -V or --version
+<br>Outputs script version<br><br>
+Example: `./bash-minifier.sh -V`
+
 ## Exit codes
 
 0: Everything went well<br>

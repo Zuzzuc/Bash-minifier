@@ -8,6 +8,7 @@ permission="u+x"
 output=stdout
 debug=0
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+VERSION="1.0.0"
 
 # Parse arguments
 for i in "$@"; do
@@ -35,6 +36,7 @@ for i in "$@"; do
       shift ;;
     -p=*|--permission=*) permission="${i#*=}"; shift ;;
     --debug) debug=1; shift ;;
+    -V|--version) echo "${VERSION}"; exit 0 ;;
     *)
       echo "Unknown arg supplied. The failing arg is '$i'"
       echo "Error code: 4. Exiting"; exit 4
