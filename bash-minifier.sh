@@ -107,6 +107,7 @@ needs_newline=0   # set after heredoc ends, so next line gets \n prefix
 # Decide what separator to append after a processed line
 emit_line() {
   local ln="$1"
+  local trailing_backslashes
 
   # Trim leading whitespace
   ln="${ln#"${ln%%[![:space:]]*}"}"
@@ -123,7 +124,8 @@ emit_line() {
   fi
 
   # 1. Backslash continuation
-  if [[ "${ln: -1}" == "\\" ]]; then
+  trailing_backslashes="${ln##*[!\\]}"
+  if (( ${#trailing_backslashes} % 2 == 1 )); then
     ln="${ln%\\}"
     ln="${ln%"${ln##*[![:space:]]}"}"
     body+="$ln "
