@@ -8,7 +8,7 @@ permission="u+x"
 output=stdout
 debug=0
 self="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
-VERSION="1.0.0"
+VERSION="1.0.1"
 
 # Parse arguments
 for i in "$@"; do
