@@ -1,0 +1,2 @@
+#!/bin/bash
+f() { case $1 in a) echo "a falls through"; ;&b) echo "b, then test the next patterns"; ;;&*) echo "star" ; ;;esac; };f a;f b;f c;case x in x) find /dev/null -prune -exec echo "escaped semicolon" \;;;esac;
