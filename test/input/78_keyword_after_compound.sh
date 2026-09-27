@@ -1,0 +1,34 @@
+#!/bin/bash
+# Right after a compound command bash still recognises the reserved words
+# that can follow one, without a ";" or newline in between.
+if [[ -n x ]] then
+  echo "dbracket then"
+fi
+if (true) then
+  echo "subshell then"
+fi
+if (( 1 )) then
+  echo "arith then"
+fi
+if { true; } then
+  echo "group then"
+fi
+while (( 0 )) do
+  echo "never"
+done
+for (( i = 0; i < 2; i++ )) do
+  echo "c-for do $i"
+done
+for (( i = 0; i < 2; i++ )) {
+  echo "c-for brace $i"
+}
+g() {
+  { for x in 1 2; do echo "loop $x"; done }
+  echo "after inner group"
+}
+g
+case a in
+  a) if true; then echo "fi esac"; fi esac
+echo "after case"
+for i in 1; do echo "into a file named fi"; done > fi
+cat fi

@@ -155,6 +155,8 @@ Ensures unquoted `#` after `=` isn't treated as a comment.
 
 Tests case branches written on a single line.
 
+### Others: see file name
+
 ## Adding New Tests
 
 To add a new test:
