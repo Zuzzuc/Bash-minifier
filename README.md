@@ -55,6 +55,11 @@ Examples: `./bash-minifier.sh -F -f=test.sh -o=STDOUT`<br>`./bash-minifier.sh -F
 <br>This option will, in case of the output being a file, set the file permission to the content of the parameter<br><br>
 Example: `./bash-minifier.sh -F -f=test.sh -o=$HOME/Desktop/output.sh -p=u-r`
 
+### No verify
+#### --no-verify
+<br>By default the output is checked with `bash -n`. If the input is valid bash but the output is not, nothing is written (exit code 8). This option skips that check.<br><br>
+Example: `./bash-minifier.sh --no-verify -f=test.sh`
+
 ### Version
 #### -V or --version
 <br>Outputs script version<br><br>
@@ -69,3 +74,6 @@ Example: `./bash-minifier.sh -V`
 4: Unknown argument supplied to script<br>
 5: This script will not minify itself<br>
 6: Unknown output mode encountered<br>
+7: The input ends inside an unclosed construct<br>
+8: The output failed the `bash -n` check although the input passed it (a minifier bug, see `--no-verify`)<br>
+9: The output could not be written, or its permissions could not be set<br>
